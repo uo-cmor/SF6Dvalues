@@ -1,0 +1,16 @@
+Package: SF6Dvalues
+Title: SF-6D Value Set Calculator
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Ross",
+           family = "Wilson",
+           role = c("aut", "cre"),
+           email = "ross.wilson@otago.ac.nz")
+Description: Calculators for various SF-6D value sets. The package also
+    provides tools for calculation of SF-6D profiles, PCS/MCS scores, and
+    health domain scores from SF-12 or SF-36 responses.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
