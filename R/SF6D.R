@@ -48,18 +48,17 @@ is_SF6D <- function(x) inherits(x, "SF6Dvalues_SF6D")
 #'     SF6D vectors -- i.e., doesn't do anything.
 #'
 #' @param x Object to coerce
-#' @param ... Passed to methods
 #'
 #' @export
-as_SF6D <- function(x, ...) {
+as_SF6D <- function(x) {
   UseMethod("as_SF6D")
 }
 
 #' @export
-as_SF6D.default <- function(x, ...) vec_cast(x, new_SF6D())
+as_SF6D.default <- function(x) vec_cast(x, new_SF6D())
 
 #' @export
-as_SF6D.SF6Dvalues_SF12 <- function(x, ...) {
+as_SF6D.SF6Dvalues_SF12 <- function(x) {
   version <- attr(x, "version")
 
   PF <- 4L - field(x, "Q2")

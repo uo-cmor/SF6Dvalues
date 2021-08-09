@@ -4,12 +4,10 @@
 \alias{as_SF6D}
 \title{Coerce an object to an SF6D vector}
 \usage{
-as_SF6D(x, ...)
+as_SF6D(x)
 }
 \arguments{
 \item{x}{Object to coerce}
-
-\item{...}{Passed to methods}
 }
 \description{
 Turns an existing object into an SF6D-class vector. Currently only works for
