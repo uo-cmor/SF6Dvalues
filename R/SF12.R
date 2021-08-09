@@ -1,4 +1,4 @@
-# Define the `SF-12` S3 class
+# Define the `SF12` S3 class
 new_SF12 <- function(Q1 = integer(), Q2 = integer(), Q3 = integer(), Q4 = integer(), Q5 = integer(),
                      Q6 = integer(), Q7 = integer(), Q8 = integer(), Q9 = integer(),
                      Q10 = integer(), Q11 = integer(), Q12 = integer(), version = 2L) {

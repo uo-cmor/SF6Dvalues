@@ -84,7 +84,7 @@ test_that("SF12 handles missing values", {
   expect_equal(format(sf12), c("1.1111111111", "2.22.2222222"))
 })
 
-test_that("as_SF12 works as expected", {
+test_that("as_SF12 works for SF12 vectors", {
   sf12 <- SF12(Q1 = 1:3, Q2a = 1:3, Q2b = 1:3, Q3a = 1:3, Q3b = 1:3, Q4a = 1:3,
                Q4b = 1:3, Q5 = 1:3, Q6a = 1:3, Q6b = 1:3, Q6c = 1:3, Q7 = 1:3)
   expect_equal(as_SF12(sf12), sf12)
@@ -99,7 +99,7 @@ test_that("vec_ptype_full.SF6Dvalues_SF12 works", {
 })
 
 ## Test appropriate errors generated
-test_that("appropriate errors generated", {
+test_that("SF12 generates appropriate errors", {
   expect_error(SF12(version = 3), class = "SF6Dvalues_error_invalid_version")
   expect_warning(
     SF12(Q1 = 1, Q2 = 1, Q3 = 1, Q4 = 1, Q5 = 1, Q6 = 1, Q7 = 1, Q8 = 1, Q9 = 1, Q10 = 1, Q11 = 1,
