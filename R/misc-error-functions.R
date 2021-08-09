@@ -39,16 +39,7 @@ conditionMessage.SF6Dvalues_error_unknown_question <- function(c) {
   )
 }
 
-stop_not_SF6D <- function(x) {
-  type <- if (is_SF12(x)) {
-    "an SF12 vector"
-  } else if (rlang::is_bare_list(x)) {
-    "a list"
-  } else if (rlang::is_bare_numeric(x)) {
-    "a numeric vector"
-  } else if (rlang::is_atomic(x)) {
-    paste0("a ", typeof(x), " vector")
-  } else paste0("a ", class(x)[[1]], " object")
+stop_not_SF6D <- function(type) {
   rlang::abort(class = "SF6Dvalues_error_not_SF6D", type = type)
 }
 

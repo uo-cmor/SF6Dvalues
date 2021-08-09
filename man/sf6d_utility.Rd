@@ -2,16 +2,30 @@
 % Please edit documentation in R/utility.R
 \name{sf6d_utility}
 \alias{sf6d_utility}
-\title{SF-6D utility values}
+\title{SF-6D utility values (direct calculation)}
 \usage{
-sf6d_utility(x, values = "uk")
+sf6d_utility(..., values = "uk", questionnaire = "SF-12", version = 2L)
 }
 \arguments{
-\item{x}{SF6D vector}
+\item{...}{Vectors containing SF-12 question reponses. See
+\code{\link{SF12}} for details.}
 
 \item{values}{Which value set to use. Currently only 'uk' (Brazier & Roberts
 2004 algorithm) is implemented.}
+
+\item{questionnaire}{Which questionnaire ('SF-12' or 'SF-36') are the data
+obtained from. Only \code{questionnaire = 'SF-12'} is implemented at
+this stage.}
+
+\item{version}{Which version (\code{1} or \code{2}) of the SF-12 are the data obtained
+from?}
 }
 \description{
-Calculate SF-6D utility values using specified value set/algorithm.
+Calculate SF-6D utility values from SF-12/SF-36 responses, using specified
+value set/algorithm.
+}
+\seealso{
+\code{\link{utility}} to calculate SF-6D utility values from a
+constructed \code{SF6D} vector; \code{\link{uk}} for the UK population value
+set.
 }
