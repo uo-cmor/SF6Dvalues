@@ -12,11 +12,11 @@ conditionMessage.SF6Dvalues_error_not_implemented <- function(c) {
 }
 
 stop_unknown_dimension <- function(d) {
-  rlang::abort(class = "SF6Dvalues_unknown_dimension", d = d)
+  rlang::abort(class = "SF6Dvalues_error_unknown_dimension", d = d)
 }
 
 #' @export
-conditionMessage.SF6Dvalues_unknown_dimension <- function(c) {
+conditionMessage.SF6Dvalues_error_unknown_dimension <- function(c) {
   glue::glue_data(
     c,
     "{usethis::ui_value(d)} is not a valid SF-6D dimension.\n",
@@ -26,15 +26,37 @@ conditionMessage.SF6Dvalues_unknown_dimension <- function(c) {
 }
 
 stop_unknown_question <- function(d) {
-  rlang::abort(class = "SF6Dvalues_unknown_question", d = d)
+  rlang::abort(class = "SF6Dvalues_error_unknown_question", d = d)
 }
 
 #' @export
-conditionMessage.SF6Dvalues_unknown_question <- function(c) {
+conditionMessage.SF6Dvalues_error_unknown_question <- function(c) {
   glue::glue_data(
     c,
     "{usethis::ui_value(d)} is not a valid SF-12 question label.\n",
     "{crayon::red(cli::symbol$cross)} `dimension` must be one of ",
     "{{{usethis::ui_value(c('Q1', 'Q2'))}, ..., {usethis::ui_value('Q12')}}}."
+  )
+}
+
+stop_not_SF6D <- function(x) {
+  type <- if (is_SF12(x)) {
+    "an SF12 vector"
+  } else if (rlang::is_bare_list(x)) {
+    "a list"
+  } else if (rlang::is_bare_numeric(x)) {
+    "a numeric vector"
+  } else if (rlang::is_atomic(x)) {
+    paste0("a ", typeof(x), " vector")
+  } else paste0("a ", class(x)[[1]], " object")
+  rlang::abort(class = "SF6Dvalues_error_not_SF6D", type = type)
+}
+
+#' @export
+conditionMessage.SF6Dvalues_error_not_SF6D <- function(c) {
+  glue::glue_data(
+    c,
+    "`x` must be an SF6D vector.\n",
+    "{crayon::red(cli::symbol$cross)} You've supplied {type}."
   )
 }
