@@ -51,3 +51,29 @@ conditionMessage.SF6Dvalues_error_not_SF6D <- function(c) {
     "{crayon::red(cli::symbol$cross)} You've supplied {type}."
   )
 }
+
+stop_not_SF12 <- function(type) {
+  rlang::abort(class = "SF6Dvalues_error_not_SF12", type = type)
+}
+
+#' @export
+conditionMessage.SF6Dvalues_error_not_SF12 <- function(c) {
+  glue::glue_data(
+    c,
+    "`x` must be an SF12 vector.\n",
+    "{crayon::red(cli::symbol$cross)} You've supplied {type}."
+  )
+}
+
+stop_version_1 <- function() {
+  rlang::abort(class = "SF6Dvalues_error_version_1")
+}
+
+#' @export
+conditionMessage.SF6Dvalues_error_version_1 <- function(c) {
+  glue::glue(
+    "Only version 2 scoring is currently implemented.\n",
+    "{crayon::red(cli::symbol$cross)} You've supplied an SF-12 version 1 ",
+      "vector."
+  )
+}
