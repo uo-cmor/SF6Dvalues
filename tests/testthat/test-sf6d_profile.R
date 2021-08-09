@@ -25,3 +25,7 @@ test_that("sf6d_profile handles missing values", {
   expect_equal(format(sf6d), c(".45151", ".44242", ".43.33"))
 })
 
+## Test appropriate errors generated
+test_that("sf6d_profile generates appropriate errors", {
+  expect_error(sf6d_profile(questionnaire = "sf-36"), class = "SF6Dvalues_error_not_implemented")
+})
