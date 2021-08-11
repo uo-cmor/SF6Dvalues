@@ -45,6 +45,23 @@ sf12_MCS <- function(..., version = 2L) {
   MCS(sf12)
 }
 
+#' SF-12 Scale Scores
+#'
+#' Calculate SF-12 norm-based scale scores. This function returns a tibble
+#'     containing the eight health domain scale scores from the SF-12 (on the
+#'     standardised 50/10 scale).
+#'
+#' @param x `SF12`-class vector.
+#'
+#' @export
+SF12_scores <- function(x) {
+  dom <- SF12_domains(x)
+  dplyr::tibble(PF = 50 + dom$PFz * 10, RP = 50 + dom$RPz * 10,
+                BP = 50 + dom$BPz * 10, GH = 50 + dom$GHz * 10,
+                VT = 50 + dom$VTz * 10, SF = 50 + dom$SFz * 10,
+                RE = 50 + dom$REz * 10, MH = 50 + dom$MHz * 10)
+}
+
 SF12_domains <- function(x) {
   if (!is_SF12(x)) {
     type <- if (is_SF6D(x)) {

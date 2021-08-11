@@ -15,6 +15,8 @@ MCS(x)
 sf12_PCS(..., version = 2L)
 
 sf12_MCS(..., version = 2L)
+
+SF12_scores(x)
 }
 \arguments{
 \item{x}{\code{SF12}-class vector.}
@@ -28,4 +30,8 @@ from?}
 \description{
 Calculate PCS and MCS (Physical and Mental Component Summary scores) from
 SF-12 vector or SF12 responses.
+
+Calculate SF-12 norm-based scale scores. This function returns a tibble
+containing the eight health domain scale scores from the SF-12 (on the
+standardised 50/10 scale).
 }
