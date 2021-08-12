@@ -54,8 +54,8 @@ utility <- function(x, values = "uk") {
 #' @export
 sf6d_utility <- function(..., values = "uk", questionnaire = "SF-12", version = 2L) {
   if (!checkmate::test_choice(values, "uk")) stop_not_implemented("values", values)
-  if (!checkmate::test_choice(questionnaire, "SF-12"))
-    stop_not_implemented("questionnaire", questionnaire)
+  if (!checkmate::test_choice(questionnaire, c("SF-12", "SF-36")))
+    stop_invalid_version("questionnaire", questionnaire, c("SF-12", "SF-36"))
   sf6d <- sf6d_profile(..., questionnaire = questionnaire, version = version)
 
   utility(sf6d, "uk")
@@ -67,18 +67,30 @@ sf6d_utility <- function(..., values = "uk", questionnaire = "SF-12", version = 
 #'
 #' @export
 uk <- function(x) {
+  version <- attr(x, "version")
+
   PF <- extract(x, "PF")
   RL <- extract(x, "RL")
   SF <- extract(x, "SF")
   PAIN <- extract(x, "PAIN")
   MH <- extract(x, "MH")
   VIT <- extract(x, "VIT")
-  MOST <- PF == 3 | RL >= 3 | SF >= 4 | PAIN >= 4 | MH >= 4 | VIT == 5
+  MOST <- switch(version,
+                 "SF-12" = PF == 3 | RL >= 3 | SF >= 4 | PAIN >= 4 | MH >= 4 | VIT == 5,
+                 "SF-36" = PF >= 4 | RL >= 3 | SF >= 4 | PAIN >= 5 | MH >= 4 | VIT >= 4)
 
-  value_set <- list(PF = c(0, 0, 0.045), RL = list(0, 0.063, 0.063, 0.063),
-                    SF = c(0, 0.063, 0.066, 0.081, 0.093), PAIN = c(0, 0, 0.042, 0.077, 0.137),
-                    MH = c(0, 0.059, 0.059, 0.113, 0.134), VIT = c(0, 0.078, 0.078, 0.078, 0.106),
-                    MOST = 0.077)
+  value_set <- switch(
+    version,
+    "SF-12" = list(PF = c(0, 0, 0.045), RL = list(0, 0.063, 0.063, 0.063),
+                   SF = c(0, 0.063, 0.066, 0.081, 0.093), PAIN = c(0, 0, 0.042, 0.077, 0.137),
+                   MH = c(0, 0.059, 0.059, 0.113, 0.134), VIT = c(0, 0.078, 0.078, 0.078, 0.106),
+                   MOST = 0.077),
+    "SF-36" = list(PF = c(0, 0.053, 0.011, 0.040, 0.054, 0.111), RL = list(0, 0.053, 0.055, 0.050),
+                   SF = c(0, 0.055, 0.067, 0.070, 0.087),
+                   PAIN = c(0, 0.047, 0.025, 0.056, 0.091, 0.167),
+                   MH = c(0, 0.049, 0.042, 0.109, 0.128), VIT = c(0, 0.086, 0.061, 0.054, 0.091),
+                   MOST = 0.070)
+  )
   calculate_linear_sf6d_values(PF, RL, SF, PAIN, MH, VIT, MOST, value_set)
 }
 

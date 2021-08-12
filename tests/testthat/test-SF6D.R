@@ -22,6 +22,16 @@ test_that("SF6D works as expected", {
   expect_s3_class(sf6d, "SF6Dvalues_SF6D")
 })
 
+test_that("SF6D works for SF-36 version", {
+  levels <- list(PF = 4:6, RL = 2:4, SF = 1:3, PAIN = 1:3, MH = 1:3, VIT = 1:3)
+  sf6d <- rlang::exec(SF6D, !!!levels, version = "SF-36")
+
+  expect_equal(field(sf6d, "PF"), 4:6)
+  expect_equal(field(sf6d, "RL"), 2:4)
+  expect_equal(attr(sf6d, "version"), "SF-36")
+  expect_s3_class(sf6d, "SF6Dvalues_SF6D")
+})
+
 test_that("format.SF6Dvalues_SF6D works as expected", {
   levels <- list(PF = 3, RL = 1, SF = 1, PAIN = 1, MH = 1, VIT = 1)
   sf6d <- rlang::exec(SF6D, !!!levels)
