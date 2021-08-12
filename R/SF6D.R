@@ -83,7 +83,7 @@ as_SF6D.SF6Dvalues_SF36 <- function(x) {
   RLe <- 2L - extract(x, "Q18")
   RL <- 1L + RLp + 2L * RLe
   SF <- 6L - extract(x, "Q20")
-  PAIN <- dplyr::if_else(extract(x, "Q21") == 1, 1L, 1L + extract(x, "Q22"))
+  PAIN <- 1L + extract(x, "Q22") - (extract(x, "Q22") == 1 & extract(x, "Q21") == 1)
   MH <- dplyr::case_when(
     extract(x, "Q23") == 1 | extract(x, "Q27") == 1 ~ 5L,
     extract(x, "Q23") <= 3 | extract(x, "Q27") <= 3 ~ 4L, # 'A good bit of the time' coded to 'Most of the time'
