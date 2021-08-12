@@ -1,3 +1,7 @@
+# SF6Dvalues 0.3.0.9000
+
+* New `SF36_scores()` calculates SF-36 domain scale scores.
+
 # SF6Dvalues 0.3.0
 
 * `utility()`, `sf6d_utility()`, and `uk()` now work for SF-36-derived SF-6D
