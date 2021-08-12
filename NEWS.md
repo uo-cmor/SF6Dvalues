@@ -1,4 +1,10 @@
-# SF6Dvalues 0.2.0.9000
+# SF6Dvalues 0.3.0
+
+* `utility()`, `sf6d_utility()`, and `uk()` now work for SF-36-derived SF-6D
+  profiles.
+
+* New `oz()` calculates Australian population utility values (SF-36-derived
+  SF-6D only).
 
 * New `SF36` class for SF-36 responses.
 

@@ -25,10 +25,11 @@ utility <- function(x, values = "uk") {
     } else paste0("a ", class(x)[[1]], " object")
     stop_not_SF6D(type)
   }
-  if (!checkmate::test_choice(values, "uk")) stop_not_implemented("values", values)
+  if (!checkmate::test_choice(values, c("uk", "oz"))) stop_not_implemented("values", values)
 
   switch(values,
-         uk = uk(x))
+         uk = uk(x),
+         oz = oz(x))
 }
 
 
@@ -53,12 +54,12 @@ utility <- function(x, values = "uk") {
 #'
 #' @export
 sf6d_utility <- function(..., values = "uk", questionnaire = "SF-12", version = 2L) {
-  if (!checkmate::test_choice(values, "uk")) stop_not_implemented("values", values)
+  if (!checkmate::test_choice(values, c("uk", "oz"))) stop_not_implemented("values", values)
   if (!checkmate::test_choice(questionnaire, c("SF-12", "SF-36")))
     stop_invalid_version("questionnaire", questionnaire, c("SF-12", "SF-36"))
   sf6d <- sf6d_profile(..., questionnaire = questionnaire, version = version)
 
-  utility(sf6d, "uk")
+  utility(sf6d, values)
 }
 
 #' SF-6D Brazier & Roberts UK population value set
@@ -94,10 +95,33 @@ uk <- function(x) {
   calculate_linear_sf6d_values(PF, RL, SF, PAIN, MH, VIT, MOST, value_set)
 }
 
+#' SF-6D Norman et al. Australian population value set
+#'
+#' @param x SF6D vector
+#'
+#' @export
+oz <- function(x) {
+  version <- attr(x, "version")
+  if (version == "SF-12") stop_incompatible_values("oz", "SF-12")
+
+  PF <- extract(x, "PF")
+  RL <- extract(x, "RL")
+  SF <- extract(x, "SF")
+  PAIN <- extract(x, "PAIN")
+  MH <- extract(x, "MH")
+  VIT <- extract(x, "VIT")
+
+  value_set <- list(PF = c(0, 0.039, 0.078, 0.133, 0.139, 0.293), RL = list(0, 0.085, 0.054, 0.106),
+                    SF = c(0, 0.044, 0.044, 0.122, 0.133),
+                    PAIN = c(0, 0.095, 0.187, 0.203, 0.281, 0.297),
+                    MH = c(0, 0.052, 0.084, 0.185, 0.275), VIT = c(0, 0.030, 0.035, 0.220, 0.259))
+
+  calculate_linear_sf6d_values(PF, RL, SF, PAIN, MH, VIT, values = value_set)
+}
+
 calculate_linear_sf6d_values <- function(PF, RL, SF, PAIN, MH, VIT, MOST = NULL, values) {
   tbl <- dplyr::tibble(
-    PF = PF, RL = RL, SF = SF, PAIN = PAIN, MH = MH, VIT = VIT,
-    MOST = {{MOST}} %||% 0,
+    PF = PF, RL = RL, SF = SF, PAIN = PAIN, MH = MH, VIT = VIT, MOST = {{MOST}} %||% 0,
     utility = 1 - (
       dplyr::recode(PF, !!!values$PF) +
         dplyr::recode(RL, !!!values$RL) +
@@ -105,7 +129,7 @@ calculate_linear_sf6d_values <- function(PF, RL, SF, PAIN, MH, VIT, MOST = NULL,
         dplyr::recode(PAIN, !!!values$PAIN) +
         dplyr::recode(MH, !!!values$MH) +
         dplyr::recode(VIT, !!!values$VIT) +
-        MOST * values$MOST
+        MOST * (values$MOST %||% 0)
     )
   )
   tbl$utility

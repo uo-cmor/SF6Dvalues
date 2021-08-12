@@ -77,3 +77,13 @@ conditionMessage.SF6Dvalues_error_version_1 <- function(c) {
       "vector."
   )
 }
+
+stop_incompatible_values <- function(values, version) {
+  rlang::abort(class = "SF6Dvalues_error_incompatible_values", values = values, version = version)
+}
+
+#' @export
+conditionMessage.SF6Dvalues_error_incompatible_values <- function(c) {
+  glue::glue_data(c,
+                  "The {usethis::ui_code(values)} value set is not available for the {version}.\n")
+}
