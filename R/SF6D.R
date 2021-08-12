@@ -85,13 +85,13 @@ as_SF6D.SF6Dvalues_SF36 <- function(x) {
   SF <- 6L - extract(x, "Q20")
   PAIN <- 1L + extract(x, "Q22") - (extract(x, "Q22") == 1 & extract(x, "Q21") == 1)
   MH <- dplyr::case_when(
-    extract(x, "Q23") == 1 | extract(x, "Q27") == 1 ~ 5L,
-    extract(x, "Q23") <= 3 | extract(x, "Q27") <= 3 ~ 4L, # 'A good bit of the time' coded to 'Most of the time'
-    extract(x, "Q23") == 4 | extract(x, "Q27") == 4 ~ 3L,
-    extract(x, "Q23") == 5 | extract(x, "Q27") == 5 ~ 2L,
-    extract(x, "Q23") == 6 | extract(x, "Q27") == 6 ~ 1L
+    extract(x, "Q24") == 1 | extract(x, "Q28") == 1 ~ 5L,
+    extract(x, "Q24") <= 3 | extract(x, "Q28") <= 3 ~ 4L, # 'A good bit of the time' coded to 'Most of the time'
+    extract(x, "Q24") == 4 | extract(x, "Q28") == 4 ~ 3L,
+    extract(x, "Q24") == 5 | extract(x, "Q28") == 5 ~ 2L,
+    extract(x, "Q24") == 6 | extract(x, "Q28") == 6 ~ 1L
   )
-  VIT <- extract(x, "Q26") - (extract(x, "Q26") > 2) # 'A good bit of the time' coded to 'Most of the time'
+  VIT <- extract(x, "Q27") - (extract(x, "Q27") > 2) # 'A good bit of the time' coded to 'Most of the time'
 
   new_SF6D(PF, RL, SF, PAIN, MH, VIT, version = "SF-36")
 }

@@ -80,6 +80,23 @@ test_that("as_SF6D works as expected", {
   expect_equal(as_SF6D(sf12), sf6d)
 })
 
+test_that("as_SF6D works for SF36 vectors", {
+  sf6d <- SF6D(PF = c(1,3,5,3,6), RL = c(4,3,3,2,1), SF = c(5,4,3,2,1), PAIN = c(1,3,4,2,6),
+               MH = c(5,4,5,3,1), VIT = c(1,2,3,4,5), version = "SF-36")
+  sf36 <- SF36(
+    Q1 = 1:5, Q2 = 1:5, Q3a = c(3,2,2,1,1), Q3b = c(3,2,3,2,1), Q3c = c(3,3,3,3,3),
+    Q3d = c(1,2,3,2,1), Q3e = c(3,2,1,2,3), Q3f = c(1,3,2,3,1), Q3g = c(1,1,2,2,3),
+    Q3h = c(1,2,3,2,2), Q3i = c(2,2,2,1,1), Q3j = c(3,3,2,3,1), Q4a = c(1,1,1,1,1),
+    Q4b = c(2,2,2,2,2), Q4c = c(1,2,2,1,2), Q4d = c(1,1,2,2,2), Q5a = c(1,1,1,1,1),
+    Q5b = c(1,1,1,2,2), Q5c = c(1,1,1,2,2), Q6 = 1:5, Q7 = c(1,1,3,5,6), Q8 = c(1,2,3,1,5),
+    Q9a = 1:5, Q9b = c(1,4,1,4,6), Q9c = c(3,3,4,5,5), Q9d = c(3,3,2,2,1), Q9e = c(1,2,4,5,6),
+    Q9f = c(1,3,2,5,6), Q9g = 1:5, Q9h = 5:1, Q9i = c(4,3,2,1,1), Q10 = c(4,4,3,3,2), Q11a = 1:5,
+    Q11b = 5:1, Q11c = c(2,3,3,4,5), Q11d = c(1,2,3,4,4)
+  )
+  expect_equal(as_SF6D(sf36), sf6d)
+})
+
+
 test_that("vec_ptype_full.SF6Dvalues_SF6D works", {
   expect_equal(
     vec_ptype_full(SF6D(PF = 1:3, RL = 1:3, SF = 1:3, PAIN = 1:3, MH = 1:3, VIT = 1:3)),

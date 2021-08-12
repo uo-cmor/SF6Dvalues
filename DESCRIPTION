@@ -1,6 +1,6 @@
 Package: SF6Dvalues
 Title: SF-6D Value Set Calculator
-Version: 0.3.0.9000
+Version: 0.4.0
 Authors@R: 
     person(given = "Ross",
            family = "Wilson",
@@ -19,6 +19,7 @@ BugReports: https://github.com/uo-cmor/SF6Dvalues/issues
 Imports: 
     checkmate,
     cli,
+    crayon,
     dplyr,
     glue,
     methods,
