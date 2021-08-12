@@ -9,15 +9,28 @@ utility(x, values = "uk")
 \arguments{
 \item{x}{SF6D vector}
 
-\item{values}{Which value set to use. Currently only 'uk' (Brazier & Roberts
-2004 algorithm) is implemented.}
+\item{values}{Which value set to use. See details for currently implemented
+options.}
 }
 \description{
 Calculate SF-6D utility values from SF-6D profile (stored in an \code{SF6D}
 vector).
 }
+\details{
+Currently implemented value sets are the original SF-12 and SF-36 UK
+population SG values (Brazier et al. 2002, Brazier & Roberts 2004),
+available with \code{values = "uk"}; Australian population values estimated
+using a DCE-duration approach (Norman et al. 2014), with
+\code{values = "oz"}; Hong Kong population values (Lam et al. 2008),
+\code{values = "hk"}; modified UK population weights based on an episodic
+random utility model (ERUM; Craig 2016), \code{values = "erum"}; Spanish
+population values based on a lottery equivalent method (Abellan Perpinan
+et al. 2012), \code{values = "spain"}; and Portuguese population SG values
+(Ferreira et al. 2010), \code{values = "portugal"}.
+}
 \seealso{
 \code{\link{sf6d_utility}} to calculate SF-6D utility values
-directly from SF-12/SF-36 responses; \code{\link{uk}} for the UK
-population value set.
+directly from SF-12/SF-36 responses; \code{\link{uk}}, \code{\link{oz}},
+\code{\link{hk}}, \code{\link{erum}}, \code{\link{spain}},
+\code{\link{portugal}} for the country-specific value sets.
 }
