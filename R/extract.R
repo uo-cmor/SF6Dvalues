@@ -21,3 +21,9 @@ extract.SF6Dvalues_SF12 <- function(x, dimension) {
   if (!dimension %in% paste0("Q", 1:12)) stop_unknown_question(dimension)
   field(x, dimension)
 }
+
+#' @export
+extract.SF6Dvalues_SF36 <- function(x, dimension) {
+  if (!dimension %in% paste0("Q", 1:36)) stop_unknown_question(dimension)
+  field(x, dimension)
+}

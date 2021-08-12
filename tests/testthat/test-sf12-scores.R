@@ -7,6 +7,12 @@ sf12_miss <- SF12(Q1 = 1:2, Q2 = c(NA, NA), Q3 = c(1, NA), Q4 = 1:2, Q5 = 1:2, Q
 levels <- list(PF = 1:3, RL = 2:4, SF = 1:3, PAIN = 1:3, MH = 1:3, VIT = 1:3)
 sf6d <- rlang::exec(SF6D, !!!levels)
 
+sf36 <- SF36(Q1 = 1:2, Q2 = 1:2, Q3 = 1:2, Q4 = 1:2, Q5 = 1:2, Q6 = 1:2, Q7 = 1:2, Q8 = 1:2,
+             Q9 = 1:2, Q10 = 1:2, Q11 = 1:2, Q12 = 1:2, Q13 = 1:2, Q14 = 1:2, Q15 = 1:2,
+             Q16 = 1:2, Q17 = 1:2, Q18 = 1:2, Q19 = 1:2, Q20 = 1:2, Q21 = 1:2, Q22 = 1:2,
+             Q23 = 1:2, Q24 = 1:2, Q25 = 1:2, Q26 = 1:2, Q27 = 1:2, Q28 = 1:2, Q29 = 1:2,
+             Q30 = 1:2, Q31 = 1:2, Q32 = 1:2, Q33 = 1:2, Q34 = 1:2, Q35 = 1:2, Q36 = 1:2)
+
 test_that("PCS works as expected", {
   expect_equal(PCS(sf12), c(36.4763897, 40.1709371, 44.9415328))
 })
@@ -53,10 +59,11 @@ test_that("SF12_scores works as expected", {
 })
 
 test_that("SF12_domains gives appropriate error messages", {
-  expect_error(SF12_domains(sf6d), class = "SF6Dvalues_error_not_SF12")
-  expect_error(SF12_domains(levels), class = "SF6Dvalues_error_not_SF12")
-  expect_error(SF12_domains(1), class = "SF6Dvalues_error_not_SF12")
-  expect_error(SF12_domains("111111"), class = "SF6Dvalues_error_not_SF12")
+  expect_error(SF12_domains(sf6d), class = "SF6Dvalues_error_incorrect_type")
+  expect_error(SF12_domains(sf36), class = "SF6Dvalues_error_incorrect_type")
+  expect_error(SF12_domains(levels), class = "SF6Dvalues_error_incorrect_type")
+  expect_error(SF12_domains(1), class = "SF6Dvalues_error_incorrect_type")
+  expect_error(SF12_domains("111111"), class = "SF6Dvalues_error_incorrect_type")
   attr(sf12, "version") <- 1L
   expect_error(SF12_domains(sf12), class = "SF6Dvalues_error_version_1")
 })

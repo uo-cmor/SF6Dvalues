@@ -52,16 +52,16 @@ conditionMessage.SF6Dvalues_error_not_SF6D <- function(c) {
   )
 }
 
-stop_not_SF12 <- function(type) {
-  rlang::abort(class = "SF6Dvalues_error_not_SF12", type = type)
+stop_incorrect_type <- function(expected, actual) {
+  rlang::abort(class = "SF6Dvalues_error_incorrect_type", expected = expected, actual = actual)
 }
 
 #' @export
-conditionMessage.SF6Dvalues_error_not_SF12 <- function(c) {
+conditionMessage.SF6Dvalues_error_incorrect_type <- function(c) {
   glue::glue_data(
     c,
-    "`x` must be an SF12 vector.\n",
-    "{crayon::red(cli::symbol$cross)} You've supplied {type}."
+    "`x` must be {expected}.\n",
+    "{crayon::red(cli::symbol$cross)} You've supplied {actual}."
   )
 }
 

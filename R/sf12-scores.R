@@ -66,6 +66,8 @@ SF12_domains <- function(x) {
   if (!is_SF12(x)) {
     type <- if (is_SF6D(x)) {
       "an SF6D vector"
+    } else if (is_SF36(x)) {
+      "an SF36 vector"
     } else if (rlang::is_bare_list(x)) {
       "a list"
     } else if (rlang::is_bare_numeric(x)) {
@@ -73,7 +75,7 @@ SF12_domains <- function(x) {
     } else if (rlang::is_atomic(x)) {
       paste0("a ", typeof(x), " vector")
     } else paste0("a ", class(x)[[1]], " object")
-    stop_not_SF12(type)
+    stop_incorrect_type("an SF12 vector", type)
   }
   if (attr(x, "version") == 1) stop_version_1()
 

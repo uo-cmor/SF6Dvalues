@@ -62,36 +62,36 @@ as_SF6D.default <- function(x) vec_cast(x, new_SF6D())
 as_SF6D.SF6Dvalues_SF12 <- function(x) {
   version <- attr(x, "version")
 
-  PF <- 4L - field(x, "Q2")
-  RLp <- switch(version, 2L - field(x, "Q5"), as.integer(field(x, "Q5") < 5))
-  RLe <- switch(version, 2L - field(x, "Q6"), as.integer(field(x, "Q6") < 5))
+  PF <- 4L - extract(x, "Q2")
+  RLp <- switch(version, 2L - extract(x, "Q5"), as.integer(extract(x, "Q5") < 5))
+  RLe <- switch(version, 2L - extract(x, "Q6"), as.integer(extract(x, "Q6") < 5))
   RL <- 1L + RLp + 2L * RLe
-  SF <- switch(version, 6L - (field(x, "Q12") - (field(x, "Q12") > 2)), 6L - field(x, "Q12"))
-  PAIN <- field(x, "Q8")
-  MH <- switch(version, 6L - (field(x, "Q11") - (field(x, "Q11") > 2)), 6L - field(x, "Q11"))
-  VIT <- switch(version, field(x, "Q10") - (field(x, "Q10") > 2), field(x, "Q10"))
+  SF <- switch(version, 6L - (extract(x, "Q12") - (extract(x, "Q12") > 2)), 6L - extract(x, "Q12"))
+  PAIN <- extract(x, "Q8")
+  MH <- switch(version, 6L - (extract(x, "Q11") - (extract(x, "Q11") > 2)), 6L - extract(x, "Q11"))
+  VIT <- switch(version, extract(x, "Q10") - (extract(x, "Q10") > 2), extract(x, "Q10"))
 
   new_SF6D(PF, RL, SF, PAIN, MH, VIT, version = "SF-12")
 }
 
 #' @export
 as_SF6D.SF6Dvalues_SF36 <- function(x) {
-  PF <- dplyr::case_when(field(x, "Q12") == 1 ~ 6L, field(x, "Q12") == 2 ~ 5L,
-                         field(x, "Q4") == 1 ~ 4L, field(x, "Q4") == 2 ~ 3L,
-                         field(x, "Q3") == 3 ~ 1L, field(x, "Q3") < 3 ~ 2L)
-  RLp <- 2L - field(x, "Q15")
-  RLe <- 2L - field(x, "Q18")
+  PF <- dplyr::case_when(extract(x, "Q12") == 1 ~ 6L, extract(x, "Q12") == 2 ~ 5L,
+                         extract(x, "Q4") == 1 ~ 4L, extract(x, "Q4") == 2 ~ 3L,
+                         extract(x, "Q3") == 3 ~ 1L, extract(x, "Q3") < 3 ~ 2L)
+  RLp <- 2L - extract(x, "Q15")
+  RLe <- 2L - extract(x, "Q18")
   RL <- 1L + RLp + 2L * RLe
-  SF <- 6L - field(x, "Q20")
-  PAIN <- dplyr::if_else(field(x, "Q21") == 1, 1L, 1L + field(x, "Q22"))
+  SF <- 6L - extract(x, "Q20")
+  PAIN <- dplyr::if_else(extract(x, "Q21") == 1, 1L, 1L + extract(x, "Q22"))
   MH <- dplyr::case_when(
-    field(x, "Q23") == 1 | field(x, "Q27") == 1 ~ 5L,
-    field(x, "Q23") <= 3 | field(x, "Q27") <= 3 ~ 4L, # 'A good bit of the time' coded to 'Most of the time'
-    field(x, "Q23") == 4 | field(x, "Q27") == 4 ~ 3L,
-    field(x, "Q23") == 5 | field(x, "Q27") == 5 ~ 2L,
-    field(x, "Q23") == 6 | field(x, "Q27") == 6 ~ 1L
+    extract(x, "Q23") == 1 | extract(x, "Q27") == 1 ~ 5L,
+    extract(x, "Q23") <= 3 | extract(x, "Q27") <= 3 ~ 4L, # 'A good bit of the time' coded to 'Most of the time'
+    extract(x, "Q23") == 4 | extract(x, "Q27") == 4 ~ 3L,
+    extract(x, "Q23") == 5 | extract(x, "Q27") == 5 ~ 2L,
+    extract(x, "Q23") == 6 | extract(x, "Q27") == 6 ~ 1L
   )
-  VIT <- field(x, "Q26") - (field(x, "Q26") > 2) # 'A good bit of the time' coded to 'Most of the time'
+  VIT <- extract(x, "Q26") - (extract(x, "Q26") > 2) # 'A good bit of the time' coded to 'Most of the time'
 
   new_SF6D(PF, RL, SF, PAIN, MH, VIT, version = "SF-36")
 }
