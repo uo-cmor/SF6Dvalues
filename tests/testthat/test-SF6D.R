@@ -79,7 +79,7 @@ test_that("vec_ptype_full.SF6Dvalues_SF6D works", {
 
 ## Test appropriate errors generated
 test_that("SF6D generates appropriate errors", {
-  expect_error(SF6D(version = "sf-36"), class = "SF6Dvalues_error_not_implemented")
+  expect_error(SF6D(version = "x"), class = "SF6Dvalues_error_invalid_version")
   expect_error(
     SF6D(PF = 4, RL = 4, SF = 4, PAIN = 4, MH = 4, VIT = 5),
     class = "SF6Dvalues_error_invalid_dimension_levels"

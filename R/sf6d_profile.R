@@ -14,8 +14,14 @@
 #'
 #' @export
 sf6d_profile <- function(..., questionnaire = "SF-12", version = 2L) {
-  if (!checkmate::test_choice(questionnaire, "SF-12"))
-    stop_not_implemented("questionnaire", questionnaire)
-  sf12 <- SF12(..., version = version)
-  as_SF6D(sf12)
+  if (!checkmate::test_choice(questionnaire, c("SF-12", "SF-36")))
+    stop_invalid_version("questionnaire", questionnaire, c("SF-12", "SF-36"))
+  if (questionnaire == "SF-12" && !checkmate::test_choice(version, 1:2))
+    stop_invalid_version("version", version, 1:2)
+  sf_responses <- switch(
+    questionnaire,
+    "SF-12" = SF12(..., version = version),
+    "SF-36" = SF36(...)
+  )
+  as_SF6D(sf_responses)
 }

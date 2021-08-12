@@ -1,6 +1,6 @@
 # Define the `SF6D` S3 class
-new_SF6D <- function(PF = integer(), RL = integer(), SF = integer(), PAIN = integer(), MH = integer(),
-                     VIT = integer(), version = "SF-12") {
+new_SF6D <- function(PF = integer(), RL = integer(), SF = integer(), PAIN = integer(),
+                     MH = integer(), VIT = integer(), version = "SF-12") {
   for (arg in list(PF, RL, SF, PAIN, MH, VIT)) checkmate::assert_integer(arg)
   checkmate::assert_choice(version, c("SF-12", "SF-36"))
 
@@ -21,7 +21,8 @@ new_SF6D <- function(PF = integer(), RL = integer(), SF = integer(), PAIN = inte
 #' @export
 SF6D <- function(PF = integer(), RL = integer(), SF = integer(), PAIN = integer(), MH = integer(),
                  VIT = integer(), version = "SF-12") {
-  if (!checkmate::test_choice(version, "SF-12")) stop_not_implemented("version", version)
+  if (!checkmate::test_choice(version, c("SF-12", "SF-36")))
+    stop_invalid_version("version", version, c("SF-12", "SF-36"))
   validate_SF6D_values(PF, RL, SF, PAIN, MH, VIT, version)
   PF <- as.integer(PF)
   RL <- as.integer(RL)
@@ -74,6 +75,28 @@ as_SF6D.SF6Dvalues_SF12 <- function(x) {
 }
 
 #' @export
+as_SF6D.SF6Dvalues_SF36 <- function(x) {
+  PF <- dplyr::case_when(field(x, "Q12") == 1 ~ 6L, field(x, "Q12") == 2 ~ 5L,
+                         field(x, "Q4") == 1 ~ 4L, field(x, "Q4") == 2 ~ 3L,
+                         field(x, "Q3") == 3 ~ 1L, field(x, "Q3") < 3 ~ 2L)
+  RLp <- 2L - field(x, "Q15")
+  RLe <- 2L - field(x, "Q18")
+  RL <- 1L + RLp + 2L * RLe
+  SF <- 6L - field(x, "Q20")
+  PAIN <- dplyr::if_else(field(x, "Q21") == 1, 1L, 1L + field(x, "Q22"))
+  MH <- dplyr::case_when(
+    field(x, "Q23") == 1 | field(x, "Q27") == 1 ~ 5L,
+    field(x, "Q23") <= 3 | field(x, "Q27") <= 3 ~ 4L, # 'A good bit of the time' coded to 'Most of the time'
+    field(x, "Q23") == 4 | field(x, "Q27") == 4 ~ 3L,
+    field(x, "Q23") == 5 | field(x, "Q27") == 5 ~ 2L,
+    field(x, "Q23") == 6 | field(x, "Q27") == 6 ~ 1L
+  )
+  VIT <- field(x, "Q26") - (field(x, "Q26") > 2) # 'A good bit of the time' coded to 'Most of the time'
+
+  new_SF6D(PF, RL, SF, PAIN, MH, VIT, version = "SF-36")
+}
+
+#' @export
 format.SF6Dvalues_SF6D <- function(x, ...) {
   values <- vec_data(x)
   values[is.na(values)] <- cli::symbol$dot
@@ -106,6 +129,7 @@ sf6d_dimension_levels <- function(version) {
   checkmate::assert_choice(version, c("SF-12", "SF-36"))
   switch(
     version,
-    "SF-12" = list(PF = 1:3, RL = 1:4, SF = 1:5, PAIN = 1:5, MH = 1:5, VIT = 1:5)
+    "SF-12" = list(PF = 1:3, RL = 1:4, SF = 1:5, PAIN = 1:5, MH = 1:5, VIT = 1:5),
+    "SF-36" = list(PF = 1:6, RL = 1:4, SF = 1:5, PAIN = 1:6, MH = 1:5, VIT = 1:5)
   )
 }

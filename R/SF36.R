@@ -107,25 +107,25 @@ check_sf36 <- function(...) {
   )
   if (length(questions) == 0) {
     if (length(responses) == 36) {
-      warn_unnamed_questions()
+      warn_unnamed_SF36_questions()
       names(responses) <- valid_names[[1]]
       return(extract_SF36_integers(responses))
     }
-    stop_unnamed_questions(length(responses))
+    stop_unnamed_SF36_questions(length(responses))
   }
   if (checkmate::test_names(questions, must.include = valid_names[[1]], type = "unique")) {
     if (any(!questions %in% c(valid_names[[1]])))
-      warn_too_many_questions(questions, valid_names[[1]])
+      warn_too_many_SF36_questions(questions, valid_names[[1]])
     names(responses) <- questions
     return(extract_SF36_integers(responses[paste0("Q", 1:36)]))
   }
   if (checkmate::test_names(questions, must.include = valid_names[[2]], type = "unique")) {
     if (any(!questions %in% c(valid_names[[2]])))
-      warn_too_many_questions(questions, valid_names[[2]])
+      warn_too_many_SF36_questions(questions, valid_names[[2]])
     names(responses) <- recode_SF36_labels(questions)
     return(extract_SF36_integers(responses[paste0("Q", 1:36)]))
   }
-  stop_invalid_questions(names(responses))
+  stop_invalid_SF36_questions(names(responses))
 }
 
 recode_SF36_labels <- function(nm) {
@@ -144,14 +144,14 @@ extract_SF36_integers <- function(responses) {
   character_responses <- purrr::map_lgl(responses, is.character)
   if (any(numeric_responses)) {
     if (!all(numeric_responses))
-      stop_invalid_responses("integer", which.min(numeric_responses),
+      stop_invalid_responses("SF-36", "integer", which.min(numeric_responses),
                              typeof(responses[[which.min(numeric_responses)]]))
     validate_SF36_values(responses, "numeric")
     return(purrr::map(responses, as.integer))
   }
   if (any(character_responses)) {
     if (!all(character_responses))
-      stop_invalid_responses("character", which.min(character_responses),
+      stop_invalid_responses("SF-36", "character", which.min(character_responses),
                              typeof(responses[[which.min(character_responses)]]))
     validate_SF36_values(responses, "character")
     return(purrr::map2(responses, sf36_response_options("character"),
@@ -163,7 +163,7 @@ validate_SF36_values <- function(responses, format) {
   valid_values <- sf36_response_options(format)
   for (q in seq_along(responses)) {
     if (!all(responses[[q]][!is.na(responses[[q]])] %in% valid_values[[q]]))
-      stop_invalid_response_levels(q, valid_values[[q]], responses[[q]])
+      stop_invalid_response_levels("SF-36", q, valid_values[[q]], responses[[q]])
   }
   invisible(responses)
 }

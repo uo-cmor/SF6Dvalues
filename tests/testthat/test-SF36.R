@@ -121,51 +121,73 @@ test_that("pillar_shaft.SF6Dvalues_SF36 works", {
 
 ## Test appropriate errors generated
 test_that("SF36 generates appropriate errors", {
-  skip("SF-12 warnings still need to be changed for SF-36.")
   expect_warning(
     SF36(Q1 = 1, Q2 = 1, Q3 = 1, Q4 = 1, Q5 = 1, Q6 = 1, Q7 = 1, Q8 = 1, Q9 = 1, Q10 = 1, Q11 = 1,
-         Q12 = 1, Q2a = 1),
-    class = "SF6Dvalues_warning_too_many_questions"
+         Q12 = 1, Q13 = 1, Q14 = 1, Q15 = 1, Q16 = 1, Q17 = 1, Q18 = 1, Q19 = 1, Q20 = 1, Q21 = 1,
+         Q22 = 1, Q23 = 1, Q24 = 1, Q25 = 1, Q26 = 1, Q27 = 1, Q28 = 1, Q29 = 1, Q30 = 1, Q31 = 1,
+         Q32 = 1, Q33 = 1, Q34 = 1, Q35 = 1, Q36 = 1, Q3a = 1),
+    class = "SF6Dvalues_warning_too_many_SF36_questions"
   )
   expect_warning(
-    SF12(Q1 = 1, Q2a = 1, Q2b = 1, Q3a = 1, Q3b = 1, Q4a = 1, Q4b = 1, Q5 = 1, Q6a = 1, Q6b = 1,
-         Q6c = 1, Q7 = 1, Q2 = 1),
-    class = "SF6Dvalues_warning_too_many_questions"
+    SF36(Q1 = 1, Q2 = 1, Q3a = 1, Q3b = 1, Q3c = 1, Q3d = 1, Q3e = 1, Q3f = 1, Q3g = 1, Q3h = 1,
+         Q3i = 1, Q3j = 1, Q4a = 1, Q4b = 1, Q4c = 1, Q4d = 1, Q5a = 1, Q5b = 1, Q5c = 1, Q6 = 1,
+         Q7 = 1, Q8 = 1, Q9a = 1, Q9b = 1, Q9c = 1, Q9d = 1, Q9e = 1, Q9f = 1, Q9g = 1, Q9h = 1,
+         Q9i = 1, Q10 = 1, Q11a = 1, Q11b = 1, Q11c = 1, Q11d = 1, Q3 = 1),
+    class = "SF6Dvalues_warning_too_many_SF36_questions"
   )
   expect_error(
-    SF12(Q1 = 1, Q2 = 1),
-    class = "SF6Dvalues_error_invalid_questions"
+    SF36(Q1 = 1, Q2 = 1),
+    class = "SF6Dvalues_error_invalid_SF36_questions"
   )
   expect_error(
-    SF12(Q1 = 4, Q2 = 4, Q3 = 4, Q4 = 4, Q5 = 4, Q6 = 5, Q7 = 4, Q8 = 4, Q9 = 4, Q10 = 4, Q11 = 4,
-         Q12 = 4),
+    SF36(Q1 = 4, Q2 = 4, Q3 = 4, Q4 = 4, Q5 = 4, Q6 = 5, Q7 = 4, Q8 = 4, Q9 = 4, Q10 = 4, Q11 = 4,
+         Q12 = 4, Q13 = 1, Q14 = 1, Q15 = 1, Q16 = 1, Q17 = 1, Q18 = 1, Q19 = 1, Q20 = 1, Q21 = 1,
+         Q22 = 1, Q23 = 1, Q24 = 1, Q25 = 1, Q26 = 1, Q27 = 1, Q28 = 1, Q29 = 1, Q30 = 1, Q31 = 1,
+         Q32 = 1, Q33 = 1, Q34 = 1, Q35 = 1, Q36 = 1),
     class = "SF6Dvalues_error_invalid_response_levels"
   )
   expect_error(
-    SF12(Q1 = "OK", Q2a = "Yes, limited a lot", Q2b = "Yes, limited a lot",
-         Q3a = "All of the time", Q3b = "All of the time", Q4a = "All of the time",
-         Q4b = "All of the time", Q5 = "Not at all", Q6a = "All of the time",
-         Q6b = "All of the time", Q6c = "All of the time", Q7 = "All of the time"),
+    SF36(Q1 = "OK", Q2 = "Much better now than one year ago", Q3 = "Yes, limited a lot",
+         Q4 = "Yes, limited a lot", Q5 = "Yes, limited a little", Q6 = "Yes, limited a lot",
+         Q7 = "Yes, limited a lot", Q8 = "No, not limited at all", Q9 = "Yes, limited a lot",
+         Q10 = "Yes, limited a lot", Q11 = "Yes, limited a lot", Q12 = "Yes, limited a lot",
+         Q13 = "Yes", Q14 = "No", Q15 = "Yes", Q16 = "Yes", Q17 = "Yes", Q18 = "Yes", Q19 = "Yes",
+         Q20 = "Extremely", Q21 = "None", Q22 = "Not at all", Q23 = "All of the time",
+         Q24 = "All of the time", Q25 = "All of the time", Q26 = "All of the time",
+         Q27 = "All of the time", Q28 = "All of the time", Q29 = "All of the time",
+         Q30 = "All of the time", Q31 = "All of the time", Q32 = "All of the time",
+         Q33 = "Definitely true", Q34 = "Definitely true", Q35 = "Definitely true",
+         Q36 = "Definitely true"),
     class = "SF6Dvalues_error_invalid_response_levels"
   )
   expect_error(
-    SF12(Q1 = 4, Q2 = 3, Q3 = 3, Q4 = "x", Q5 = 4, Q6 = 5, Q7 = 4, Q8 = 4, Q9 = 4, Q10 = 4, Q11 = 4,
-         Q12 = 4),
+    SF36(Q1 = 4, Q2 = 3, Q3 = 3, Q4 = "x", Q5 = 4, Q6 = 5, Q7 = 4, Q8 = 4, Q9 = 4, Q10 = 4, Q11 = 4,
+         Q12 = 4, Q13 = 1, Q14 = 1, Q15 = 1, Q16 = 1, Q17 = 1, Q18 = 1, Q19 = 1, Q20 = 1, Q21 = 1,
+         Q22 = 1, Q23 = 1, Q24 = 1, Q25 = 1, Q26 = 1, Q27 = 1, Q28 = 1, Q29 = 1, Q30 = 1, Q31 = 1,
+         Q32 = 1, Q33 = 1, Q34 = 1, Q35 = 1, Q36 = 1),
     class = "SF6Dvalues_error_invalid_responses"
   )
   expect_error(
-    SF12(Q1 = "Good", Q2a = TRUE, Q2b = "Yes, limited a lot",
-         Q3a = "All of the time", Q3b = "All of the time", Q4a = "All of the time",
-         Q4b = "All of the time", Q5 = "Not at all", Q6a = "All of the time",
-         Q6b = "All of the time", Q6c = "All of the time", Q7 = "All of the time"),
+    SF36(Q1 = "Fair", Q2 = TRUE, Q3 = "Yes, limited a lot", Q4 = "Yes, limited a lot",
+         Q5 = "Yes, limited a little", Q6 = "Yes, limited a lot", Q7 = "Yes, limited a lot",
+         Q8 = "No, not limited at all", Q9 = "Yes, limited a lot", Q10 = "Yes, limited a lot",
+         Q11 = "Yes, limited a lot", Q12 = "Yes, limited a lot", Q13 = "Yes", Q14 = "No",
+         Q15 = "Yes", Q16 = "Yes", Q17 = "Yes", Q18 = "Yes", Q19 = "Yes", Q20 = "Extremely",
+         Q21 = "None", Q22 = "Not at all", Q23 = "All of the time", Q24 = "All of the time",
+         Q25 = "All of the time", Q26 = "All of the time", Q27 = "All of the time",
+         Q28 = "All of the time", Q29 = "All of the time", Q30 = "All of the time",
+         Q31 = "All of the time", Q32 = "All of the time", Q33 = "Definitely true",
+         Q34 = "Definitely true", Q35 = "Definitely true", Q36 = "Definitely true"),
     class = "SF6Dvalues_error_invalid_responses"
   )
   expect_warning(
-    SF12(4, 3, 3, 4, 4, 5, 4, 4, 4, 4, 4, 4),
-    class = "SF6Dvalues_warning_unnamed_questions"
+    SF36(4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1),
+    class = "SF6Dvalues_warning_unnamed_SF36_questions"
   )
   expect_error(
-    SF12(4, 3, 3, 4, 4, 5, 4, 4, 4, 4),
-    class = "SF6Dvalues_error_unnamed_questions"
+    SF36(4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1),
+    class = "SF6Dvalues_error_unnamed_SF36_questions"
   )
 })

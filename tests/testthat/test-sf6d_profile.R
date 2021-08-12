@@ -27,21 +27,21 @@ test_that("sf6d_profile handles missing values", {
 
 ## Test appropriate errors generated
 test_that("sf6d_profile generates appropriate errors", {
-  expect_error(sf6d_profile(questionnaire = "sf-36"), class = "SF6Dvalues_error_not_implemented")
+  expect_error(sf6d_profile(questionnaire = "X"), class = "SF6Dvalues_error_invalid_version")
   expect_error(sf6d_profile(version = 3), class = "SF6Dvalues_error_invalid_version")
   expect_warning(
     sf6d_profile(Q1 = 1, Q2 = 1, Q3 = 1, Q4 = 1, Q5 = 1, Q6 = 1, Q7 = 1, Q8 = 1, Q9 = 1, Q10 = 1,
                  Q11 = 1, Q12 = 1, Q2a = 1),
-    class = "SF6Dvalues_warning_too_many_questions"
+    class = "SF6Dvalues_warning_too_many_SF12_questions"
   )
   expect_warning(
     sf6d_profile(Q1 = 1, Q2a = 1, Q2b = 1, Q3a = 1, Q3b = 1, Q4a = 1, Q4b = 1, Q5 = 1, Q6a = 1,
                  Q6b = 1, Q6c = 1, Q7 = 1, Q2 = 1),
-    class = "SF6Dvalues_warning_too_many_questions"
+    class = "SF6Dvalues_warning_too_many_SF12_questions"
   )
   expect_error(
     sf6d_profile(Q1 = 1, Q2 = 1),
-    class = "SF6Dvalues_error_invalid_questions"
+    class = "SF6Dvalues_error_invalid_SF12_questions"
   )
   expect_error(
     sf6d_profile(Q1 = 4, Q2 = 4, Q3 = 4, Q4 = 4, Q5 = 4, Q6 = 5, Q7 = 4, Q8 = 4, Q9 = 4, Q10 = 4,
@@ -69,10 +69,10 @@ test_that("sf6d_profile generates appropriate errors", {
   )
   expect_warning(
     sf6d_profile(4, 3, 3, 4, 4, 5, 4, 4, 4, 4, 4, 4),
-    class = "SF6Dvalues_warning_unnamed_questions"
+    class = "SF6Dvalues_warning_unnamed_SF12_questions"
   )
   expect_error(
     sf6d_profile(4, 3, 3, 4, 4, 5, 4, 4, 4, 4),
-    class = "SF6Dvalues_error_unnamed_questions"
+    class = "SF6Dvalues_error_unnamed_SF12_questions"
   )
 })

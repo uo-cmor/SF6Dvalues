@@ -22,6 +22,7 @@ Imports:
     dplyr,
     glue,
     methods,
+    pillar,
     purrr,
     rlang,
     usethis,

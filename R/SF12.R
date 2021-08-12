@@ -72,7 +72,8 @@ vec_cast.SF6Dvalues_SF12.SF6Dvalues_SF12 <- function(x, to, ...) x
 methods::setOldClass(c("SF6Dvalues_SF12", "vctrs_vctr"))
 
 check_sf12 <- function(..., version = 2) {
-  if (!checkmate::test_choice(as.character(version), c("1", "2"))) stop_invalid_version(version)
+  if (!checkmate::test_choice(as.character(version), c("1", "2")))
+    stop_invalid_version("version", version, c(1, 2))
   responses <- list(...)
   if (length(responses) == 0) {
     responses <- rep(list(integer()), 12)
@@ -86,25 +87,25 @@ check_sf12 <- function(..., version = 2) {
   )
   if (length(questions) == 0) {
     if (length(responses) == 12) {
-      warn_unnamed_questions()
+      warn_unnamed_SF12_questions()
       names(responses) <- valid_names[[1]]
       return(extract_SF12_integers(responses, version))
     }
-    stop_unnamed_questions(length(responses))
+    stop_unnamed_SF12_questions(length(responses))
   }
   if (checkmate::test_names(questions, must.include = valid_names[[1]], type = "unique")) {
     if (any(!questions %in% c(valid_names[[1]])))
-      warn_too_many_questions(questions, valid_names[[1]])
+      warn_too_many_SF12_questions(questions, valid_names[[1]])
     names(responses) <- questions
     return(extract_SF12_integers(responses[paste0("Q", 1:12)], version))
   }
   if (checkmate::test_names(questions, must.include = valid_names[[2]], type = "unique")) {
     if (any(!questions %in% c(valid_names[[2]])))
-      warn_too_many_questions(questions, valid_names[[2]])
+      warn_too_many_SF12_questions(questions, valid_names[[2]])
     names(responses) <- recode_SF12_labels(questions)
     return(extract_SF12_integers(responses[paste0("Q", 1:12)], version))
   }
-  stop_invalid_questions(names(responses))
+  stop_invalid_SF12_questions(names(responses))
 }
 
 recode_SF12_labels <- function(nm) {
@@ -119,14 +120,14 @@ extract_SF12_integers <- function(responses, version) {
   character_responses <- purrr::map_lgl(responses, is.character)
   if (any(numeric_responses)) {
     if (!all(numeric_responses))
-      stop_invalid_responses("integer", which.min(numeric_responses),
+      stop_invalid_responses("SF-12", "integer", which.min(numeric_responses),
                              typeof(responses[[which.min(numeric_responses)]]))
     validate_SF12_values(responses, "numeric", version)
     return(purrr::map(responses, as.integer))
   }
   if (any(character_responses)) {
     if (!all(character_responses))
-      stop_invalid_responses("character", which.min(character_responses),
+      stop_invalid_responses("SF-12", "character", which.min(character_responses),
                              typeof(responses[[which.min(character_responses)]]))
     validate_SF12_values(responses, "character", version)
     return(purrr::map2(responses, sf12_response_options("character", version),
@@ -138,7 +139,7 @@ validate_SF12_values <- function(responses, format, version) {
   valid_values <- sf12_response_options(format, version)
   for (q in seq_along(responses)) {
     if (!all(responses[[q]][!is.na(responses[[q]])] %in% valid_values[[q]]))
-      stop_invalid_response_levels(q, valid_values[[q]], responses[[q]])
+      stop_invalid_response_levels("SF-12", q, valid_values[[q]], responses[[q]])
   }
   invisible(responses)
 }
