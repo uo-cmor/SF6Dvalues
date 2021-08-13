@@ -87,3 +87,17 @@ conditionMessage.SF6Dvalues_error_incompatible_values <- function(c) {
   glue::glue_data(c,
                   "The {usethis::ui_code(values)} value set is not available for the {version}.\n")
 }
+
+stop_incompatible_algorithm <- function(algorithm, from_to, instrument) {
+  rlang::abort(class = "SF6Dvalues_error_incompatible_algorithm",
+               algorithm = algorithm, from_to = from_to, instrument = instrument)
+}
+
+#' @export
+conditionMessage.SF6Dvalues_error_incompatible_algorithm <- function(c) {
+  glue::glue_data(
+    c,
+    "The {usethis::ui_code(algorithm)} algorithm is not available for mapping {from_to} the ",
+    "{instrument}."
+  )
+}

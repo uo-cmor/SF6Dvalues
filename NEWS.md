@@ -1,4 +1,7 @@
-# SF6Dvalues 0.4.0.9000
+# SF6Dvalues 0.5.0
+
+* New `mapping()` calculates mapping from SF-6D to other utility instrument
+  value sets.
 
 * New `hk()`, `erum()`, `spain()`, and `portugal()` SF-6D(SF-36) value sets.
 

@@ -28,6 +28,8 @@ utility <- function(x, values = "uk") {
   if (!is_SF6D(x)) {
     type <- if (is_SF12(x)) {
       "an SF12 vector"
+    } else if (is_SF36(x)) {
+      "an SF36 vector"
     } else if (rlang::is_bare_list(x)) {
       "a list"
     } else if (rlang::is_bare_numeric(x)) {

@@ -3,6 +3,7 @@
 S3method(as_SF6D,SF6Dvalues_SF12)
 S3method(as_SF6D,SF6Dvalues_SF36)
 S3method(as_SF6D,default)
+S3method(conditionMessage,SF6Dvalues_error_incompatible_algorithm)
 S3method(conditionMessage,SF6Dvalues_error_incompatible_values)
 S3method(conditionMessage,SF6Dvalues_error_incorrect_type)
 S3method(conditionMessage,SF6Dvalues_error_invalid_SF12_questions)
