@@ -1,3 +1,23 @@
+#' Mapping to predict other utility instrument value sets from the SF-6D
+#'
+#' Calculate predicted utility values based on other utility instruments from
+#'     the SF-6D, based on published mapping algorithms.
+#'
+#' The currently implemented mapping algorithms are:
+#'
+#' Gamst-Klaussen et al. 2016 ("gk"): non-linear mapping to EQ-5D-5L.
+#'
+#' Rowen et al. 2012 ("rowen'): linear mapping via VAS to EQ-5D-3L & HUI2.
+#'
+#' Richardson et al. 2015 ("richardson"): symmetrical geometric mean square
+#'     regression mapping to EQ-5D-5L, HUI3, 15D, QWB, and AQoL-8D.
+#'
+#' @param x `SF6D` vector
+#' @param instrument Which instrument to map to (currently "EQ-5D-5L",
+#'     "EQ-5D-3L", "HUI2", "HUI3", "15D", "QWB", and "AQoL-8D" are
+#'     implemented).
+#' @param algorithm Which published mapping algorithm to use. See Details for
+#'     the available algorithms for each target instrument.
 mapping <- function(x, instrument, algorithm) {
   if (!is_SF6D(x)) {
     type <- if (is_SF12(x)) {

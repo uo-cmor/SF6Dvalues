@@ -1,3 +1,7 @@
+# SF6Dvalues 0.5.1
+
+* Correctly export & document `mapping()`.
+
 # SF6Dvalues 0.5.0
 
 * New `mapping()` calculates mapping from SF-6D to other utility instrument
