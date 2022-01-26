@@ -1,5 +1,7 @@
 # SF6Dvalues 0.5.1.9000
 
+* Condition handling now follows `rlang` best practices.
+
 # SF6Dvalues 0.5.1
 
 * Correctly export & document `mapping()`.

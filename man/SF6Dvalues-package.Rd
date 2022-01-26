@@ -6,9 +6,7 @@
 \alias{SF6Dvalues-package}
 \title{SF6Dvalues: SF-6D Value Set Calculator}
 \description{
-Calculators for various SF-6D value sets. The package also
-    provides tools for calculation of SF-6D profiles, PCS/MCS scores, and
-    health domain scores from SF-12 or SF-36 responses.
+Calculators for various SF-6D value sets. The package also provides tools for calculation of SF-6D profiles, PCS/MCS scores, and health domain scores from SF-12 or SF-36 responses.
 }
 \seealso{
 Useful links:
