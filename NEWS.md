@@ -1,5 +1,7 @@
 # SF6Dvalues 0.5.1.9000
 
+* `SF12()` and related functions now accept factors as input.
+
 * Condition handling now follows `rlang` best practices.
 
 # SF6Dvalues 0.5.1

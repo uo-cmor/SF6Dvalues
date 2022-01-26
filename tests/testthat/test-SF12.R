@@ -34,11 +34,73 @@ test_that("format.SF6Dvalues_SF12 works as expected", {
 })
 
 test_that("SF12 handles character inputs", {
-  responses <- list(Q1 = "Good", Q2a = "Yes, limited a lot", Q2b = "Yes, limited a lot",
+  responses <- list(Q1 = "Good",
+                    Q2a = "Yes, limited a lot", Q2b = "Yes, limited a lot",
                     Q3a = "All of the time", Q3b = "All of the time", Q4a = "All of the time",
                     Q4b = "All of the time", Q5 = "Not at all", Q6a = "All of the time",
                     Q6b = "All of the time", Q6c = "All of the time", Q7 = "All of the time")
   sf12 <- rlang::exec(SF12, !!!responses, version = 2)
+
+  expect_s3_class(sf12, "SF6Dvalues_SF12")
+  expect_match(format(sf12), "311111111111")
+})
+
+factor_responses <- list(
+  Q1 = factor("Good", levels = c("Excellent", "Very good", "Good", "Fair", "Poor")),
+  Q2a = factor(
+    "Yes, limited a lot",
+    levels = c("Yes, limited a lot", "Yes, limited a little", "No, not limited at all")
+  ),
+  Q2b = factor(
+    "Yes, limited a lot",
+    levels = c("Yes, limited a lot", "Yes, limited a little", "No, not limited at all")
+  ),
+  Q3a = factor(
+    "All of the time",
+    levels = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+               "None of the time")
+  ),
+  Q3b = factor(
+    "All of the time",
+    levels = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+               "None of the time")
+  ),
+  Q4a = factor(
+    "All of the time",
+    levels = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+               "None of the time")
+  ),
+  Q4b = factor(
+    "All of the time",
+    levels = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+               "None of the time")
+  ),
+  Q5 = factor("Not at all",
+              levels = c("Not at all", "A little bit", "Moderately", "Quite a bit", "Extremely")),
+  Q6a = factor(
+    "All of the time",
+    levels = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+               "None of the time")
+  ),
+  Q6b = factor(
+    "All of the time",
+    levels = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+               "None of the time")
+  ),
+  Q6c = factor(
+    "All of the time",
+    levels = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+               "None of the time")
+  ),
+  Q7 = factor(
+    "All of the time",
+    levels = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+               "None of the time")
+  )
+)
+
+test_that("SF12 handles factor inputs", {
+  sf12 <- rlang::exec(SF12, !!!factor_responses, version = 2)
 
   expect_s3_class(sf12, "SF6Dvalues_SF12")
   expect_match(format(sf12), "311111111111")
@@ -139,6 +201,13 @@ test_that("SF12 generates appropriate errors", {
          Q6b = "All of the time", Q6c = "All of the time", Q7 = "All of the time"),
     class = "SF6Dvalues_error_invalid_responses"
   )
+  levels(factor_responses[[1]])[[2]] <- "V. good"
+  expect_warning(rlang::exec(SF12, !!!factor_responses, version = 2),
+                 class = "SF6Dvalues_warning_invalid_factor_levels")
+  factor_responses[[1]] <- factor(factor_responses[[1]],
+                                  levels = c("Excellent", "Very good", "Good", "Fair"))
+  expect_error(rlang::exec(SF12, !!!factor_responses, version = 2),
+               class = "SF6Dvalues_error_invalid_factor_levels")
   expect_warning(
     SF12(4, 3, 3, 4, 4, 5, 4, 4, 4, 4, 4, 4),
     class = "SF6Dvalues_warning_unnamed_SF12_questions"
@@ -148,4 +217,4 @@ test_that("SF12 generates appropriate errors", {
     class = "SF6Dvalues_error_unnamed_SF12_questions"
   )
 })
-  ## Test version 2 works
+## Test version 2 works

@@ -118,6 +118,7 @@ recode_SF12_labels <- function(nm) {
 extract_SF12_integers <- function(responses, version) {
   numeric_responses <- purrr::map_lgl(responses, checkmate::test_integerish)
   character_responses <- purrr::map_lgl(responses, is.character)
+  factor_responses <- purrr::map_lgl(responses, is.factor)
   if (any(numeric_responses)) {
     if (!all(numeric_responses))
       stop_invalid_responses("SF-12", "integer", which.min(numeric_responses),
@@ -133,19 +134,36 @@ extract_SF12_integers <- function(responses, version) {
     return(purrr::map2(responses, sf12_response_options("character", version),
                        ~as.integer(factor(.x, levels = .y))))
   }
+  if (any(factor_responses)) {
+    if (!all(factor_responses))
+      stop_invalid_responses("SF-12", "factor", which.min(factor_responses),
+                             typeof(responses[[which.min(factor_responses)]]))
+    validate_SF12_values(responses, "factor", version)
+    return(purrr::map2(responses, sf12_response_options("factor", version),
+                       ~as.integer(factor(.x, levels = .y))))
+  }
 }
 
 validate_SF12_values <- function(responses, format, version) {
   valid_values <- sf12_response_options(format, version)
+  if (format == "factor" && !isTRUE(all.equal(purrr::map(responses, levels), valid_values))) {
+    if (!isTRUE(all.equal(purrr::map_int(responses, ~length(levels(.))), lengths(valid_values))))
+      stop_invalid_factor_levels("SF-12")
+    valid_values <- sf12_response_options("numeric", version)
+    factor_as_numeric <- TRUE
+  } else factor_as_numeric <- FALSE
   for (q in seq_along(responses)) {
-    if (!all(responses[[q]][!is.na(responses[[q]])] %in% valid_values[[q]]))
+    if (factor_as_numeric) responses[[q]] <- as.integer(responses[[q]])
+    if (!all(responses[[q]][!is.na(responses[[q]])] %in% valid_values[[q]])) {
       stop_invalid_response_levels("SF-12", q, valid_values[[q]], responses[[q]])
+    }
   }
+  if (factor_as_numeric) warn_invalid_factor_levels("SF-12")
   invisible(responses)
 }
 
 sf12_response_options <- function(format, version) {
-  checkmate::assert_choice(format, c("character", "numeric"))
+  checkmate::assert_choice(format, c("character", "numeric", "factor"))
   checkmate::assert_choice(as.character(version), c("1", "2"))
   text_responses <- switch(
     as.integer(version),
@@ -158,26 +176,38 @@ sf12_response_options <- function(format, version) {
       Q6 = c("Yes", "No"),
       Q7 = c("Yes", "No"),
       Q8 = c("Not at all", "A little bit", "Moderately", "Quite a bit", "Extremely"),
-      Q9 = c("All of the time", "Most of the time", "A good bit of the time", "Some of the time", "A little of the time", "None of the time"),
-      Q10 = c("All of the time", "Most of the time", "A good bit of the time", "Some of the time", "A little of the time", "None of the time"),
-      Q11 = c("All of the time", "Most of the time", "A good bit of the time", "Some of the time", "A little of the time", "None of the time"),
-      Q12 = c("All of the time", "Most of the time", "A good bit of the time", "Some of the time", "A little of the time", "None of the time")
+      Q9 = c("All of the time", "Most of the time", "A good bit of the time", "Some of the time",
+             "A little of the time", "None of the time"),
+      Q10 = c("All of the time", "Most of the time", "A good bit of the time", "Some of the time",
+              "A little of the time", "None of the time"),
+      Q11 = c("All of the time", "Most of the time", "A good bit of the time", "Some of the time",
+              "A little of the time", "None of the time"),
+      Q12 = c("All of the time", "Most of the time", "A good bit of the time", "Some of the time",
+              "A little of the time", "None of the time")
     ),
     list(
       Q1 = c("Excellent", "Very good", "Good", "Fair", "Poor"),
       Q2 = c("Yes, limited a lot", "Yes, limited a little", "No, not limited at all"),
       Q3 = c("Yes, limited a lot", "Yes, limited a little", "No, not limited at all"),
-      Q4 = c("All of the time", "Most of the time", "Some of the time", "A little of the time", "None of the time"),
-      Q5 = c("All of the time", "Most of the time", "Some of the time", "A little of the time", "None of the time"),
-      Q6 = c("All of the time", "Most of the time", "Some of the time", "A little of the time", "None of the time"),
-      Q7 = c("All of the time", "Most of the time", "Some of the time", "A little of the time", "None of the time"),
+      Q4 = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+             "None of the time"),
+      Q5 = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+             "None of the time"),
+      Q6 = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+             "None of the time"),
+      Q7 = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+             "None of the time"),
       Q8 = c("Not at all", "A little bit", "Moderately", "Quite a bit", "Extremely"),
-      Q9 = c("All of the time", "Most of the time", "Some of the time", "A little of the time", "None of the time"),
-      Q10 = c("All of the time", "Most of the time", "Some of the time", "A little of the time", "None of the time"),
-      Q11 = c("All of the time", "Most of the time", "Some of the time", "A little of the time", "None of the time"),
-      Q12 = c("All of the time", "Most of the time", "Some of the time", "A little of the time", "None of the time")
+      Q9 = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+             "None of the time"),
+      Q10 = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+              "None of the time"),
+      Q11 = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+              "None of the time"),
+      Q12 = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+              "None of the time")
     )
   )
-  if (format == "character") return(text_responses)
+  if (format == "character" | format == "factor") return(text_responses)
   purrr::map(text_responses, seq_along)
 }
