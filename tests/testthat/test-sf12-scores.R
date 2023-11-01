@@ -1,6 +1,10 @@
 sf12 <- SF12(Q1 = 3:5, Q2a = 1:3, Q2b = 1:3, Q3a = 1:3, Q3b = 1:3, Q4a = 1:3,
              Q4b = 1:3, Q5 = 1:3, Q6a = 1:3, Q6b = 1:3, Q6c = 3:1, Q7 = 1:3)
 
+sf12_v1 <- SF12(Q1 = 3:5, Q2a = 1:3, Q2b = 1:3, Q3a = c(1, 1, 2), Q3b = c(1, 2, 2),
+                Q4a = c(1, 1, 2), Q4b = c(1, 2, 2), Q5 = 1:3, Q6a = 1:3, Q6b = 1:3, Q6c = 3:1,
+                Q7 = 1:3, version = 1)
+
 sf12_miss <- SF12(Q1 = 1:2, Q2 = c(NA, NA), Q3 = c(1, NA), Q4 = 1:2, Q5 = 1:2, Q6 = 1:2,
                   Q7 = 1:2, Q8 = 1:2, Q9 = 1:2, Q10 = 1:2, Q11 = 1:2, Q12 = 1:2)
 
@@ -15,10 +19,12 @@ sf36 <- SF36(Q1 = 1:2, Q2 = 1:2, Q3 = 1:2, Q4 = 1:2, Q5 = 1:2, Q6 = 1:2, Q7 = 1:
 
 test_that("PCS works as expected", {
   expect_equal(PCS(sf12), c(36.4763897, 40.1709371, 44.9415328))
+  expect_equal(PCS(sf12_v1), c(37.31354, 42.16265, 46.35490))
 })
 
 test_that("MCS works as expected", {
   expect_equal(MCS(sf12), c(38.9116090, 34.3307077, 29.6820629))
+  expect_equal(MCS(sf12_v1), c(43.59457, 37.49622, 33.00289))
 })
 
 test_that("PCS handles missing values", {
@@ -56,14 +62,4 @@ test_that("SF12_scores works as expected", {
   expect_equal(x$SF, c(16.176357, 26.274205, 36.372053))
   expect_equal(x$RE, c(11.346970, 22.529936, 33.712901))
   expect_equal(x$MH, c(52.349477, 40.157905, 27.966334))
-})
-
-test_that("SF12_domains gives appropriate error messages", {
-  expect_error(SF12_domains(sf6d), class = "SF6Dvalues_error_incorrect_type")
-  expect_error(SF12_domains(sf36), class = "SF6Dvalues_error_incorrect_type")
-  expect_error(SF12_domains(levels), class = "SF6Dvalues_error_incorrect_type")
-  expect_error(SF12_domains(1), class = "SF6Dvalues_error_incorrect_type")
-  expect_error(SF12_domains("111111"), class = "SF6Dvalues_error_incorrect_type")
-  attr(sf12, "version") <- 1L
-  expect_error(SF12_domains(sf12), class = "SF6Dvalues_error_version_1")
 })

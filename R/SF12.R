@@ -182,8 +182,8 @@ sf12_response_options <- function(format, version) {
               "A little of the time", "None of the time"),
       Q11 = c("All of the time", "Most of the time", "A good bit of the time", "Some of the time",
               "A little of the time", "None of the time"),
-      Q12 = c("All of the time", "Most of the time", "A good bit of the time", "Some of the time",
-              "A little of the time", "None of the time")
+      Q12 = c("All of the time", "Most of the time", "Some of the time", "A little of the time",
+              "None of the time")
     ),
     list(
       Q1 = c("Excellent", "Very good", "Good", "Fair", "Poor"),

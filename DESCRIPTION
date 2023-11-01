@@ -13,21 +13,20 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 URL: https://github.com/uo-cmor/SF6Dvalues
 BugReports: https://github.com/uo-cmor/SF6Dvalues/issues
 Imports: 
     checkmate,
     cli,
-    crayon,
     dplyr,
     glue,
     methods,
     pillar,
     purrr,
     rlang,
-    usethis,
     vctrs
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    usethis
 Config/testthat/edition: 3
