@@ -1,6 +1,6 @@
 Package: SF6Dvalues
 Title: SF-6D Value Set Calculator
-Version: 0.5.1.9000
+Version: 0.6.0
 Authors@R: 
     person(given = "Ross",
            family = "Wilson",

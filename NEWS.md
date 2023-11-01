@@ -1,10 +1,10 @@
-# SF6Dvalues 0.5.1.9000
+# SF6Dvalues 0.6.0
+
+* SF-12 version 1 scores can now be calculated by `PCS()`, `MCS()`, and similar.
 
 * `SF12()` and related functions now accept factors as input.
 
 * Condition handling now follows `rlang` best practices.
-
-* SF-12 version 1 scores can now be calculated by `PCS()`, `MCS()`, and similar.
 
 # SF6Dvalues 0.5.1
 
