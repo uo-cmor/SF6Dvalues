@@ -66,7 +66,7 @@ as_SF6D.SF6Dvalues_SF12 <- function(x) {
   RLp <- switch(version, 2L - extract(x, "Q5"), as.integer(extract(x, "Q5") < 5))
   RLe <- switch(version, 2L - extract(x, "Q6"), as.integer(extract(x, "Q6") < 5))
   RL <- 1L + RLp + 2L * RLe
-  SF <- switch(version, 6L - (extract(x, "Q12") - (extract(x, "Q12") > 2)), 6L - extract(x, "Q12"))
+  SF <- 6L - extract(x, "Q12")
   PAIN <- extract(x, "Q8")
   MH <- switch(version, 6L - (extract(x, "Q11") - (extract(x, "Q11") > 2)), 6L - extract(x, "Q11"))
   VIT <- switch(version, extract(x, "Q10") - (extract(x, "Q10") > 2), extract(x, "Q10"))

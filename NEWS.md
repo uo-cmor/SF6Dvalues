@@ -1,3 +1,7 @@
+# SF6Dvalues 0.6.1
+
+* `as_SF6D()` now correctly calculates SF-6D SF domain from SF-12-v1 input.
+
 # SF6Dvalues 0.6.0
 
 * SF-12 version 1 scores can now be calculated by `PCS()`, `MCS()`, and similar.
